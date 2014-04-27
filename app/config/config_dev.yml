@@ -31,6 +31,10 @@ monolog:
 
 assetic:
     use_controller: true
+    filters:
+        less:
+            node:       /usr/bin/node
+            node_paths: [/usr/lib/node_modules]
 
-#swiftmailer:
-#    delivery_address: me@example.com
+swiftmailer:
+    delivery_address: me@example.com

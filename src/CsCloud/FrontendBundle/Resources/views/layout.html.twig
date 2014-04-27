@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% if (title is defined) and title|trim is not empty %}{{ title|trim }} | CsCloud{% else %}CsCloud{% endif %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="shortcut icon" href="/favicon.png" />
+
+        {% block meta_robots %}{% endblock %}
+
+        {% stylesheets '@CsCloudFrontendBundle/Resources/assets/less/bootstrap.less'
+                       '@CsCloudFrontendBundle/Resources/assets/less/style.less'
+                  filter='less,?yui_css' output='css/compiled/main.css' %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        {% block extra_css %}{% endblock %}
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        {% stylesheets '@CsCloudFrontendBundle/Resources/assets/less/ie8.less'
+            filter="less" output="css/compiled/ie8.css" %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+            <link href="{{ asset('respond-proxy.html') }}" id="respond-proxy" rel="respond-proxy" />
+            <link href="/respond.proxy.gif" id="respond-redirect" rel="respond-redirect" />
+            <script src="/respond.proxy.js"></script>
+        <![endif]-->
+    </head>
+    <body class="{% if (body_class is defined) %} {{ body_class }}{% endif %}">
+
+        <div class="viewport">
+            <div class="body-container">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        {% javascripts 
+                       '@CsCloudFrontendBundle/Resources/assets/js/bootstrap/modal.js'
+                       '@CsCloudFrontendBundle/Resources/assets/js/main.js'
+            filter="?closure" output="js/compiled/main.js" %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

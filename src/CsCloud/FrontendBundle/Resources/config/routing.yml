@@ -1,0 +1,7 @@
+cs_cloud_frontend_homepage:
+    pattern:  /
+    defaults: { _controller: CsCloudFrontendBundle:Default:homepage }
+
+cs_cloud_frontend_hello:
+    pattern:  /hello/{name}
+    defaults: { _controller: CsCloudFrontendBundle:Default:index }

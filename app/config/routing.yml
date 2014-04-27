@@ -1,0 +1,4 @@
+cs_cloud_frontend:
+    resource: "@CsCloudFrontendBundle/Resources/config/routing.yml"
+    prefix:   /
+
