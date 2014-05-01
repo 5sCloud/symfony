@@ -1,0 +1,8 @@
+*.php text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.twig text eol=lf
+
+src/CsCloud/FrontendBundle/Resources/assets/js/bootstrap binary
+src/CsCloud/FrontendBundle/Resources/assets/js/bootstrap binary
+
