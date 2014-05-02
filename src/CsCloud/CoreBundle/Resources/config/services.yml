@@ -1,0 +1,7 @@
+parameters:
+#    cs_cloud_core.example.class: CsCloud\CoreBundle\Example
+
+services:
+#    cs_cloud_core.example:
+#        class: %cs_cloud_core.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
