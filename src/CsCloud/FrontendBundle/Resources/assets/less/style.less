@@ -1,215 +1,27 @@
 @import "bootstrap/variables.less";
+@import "variables.less";
 
-
-.container {
-  width: 68.571em;
-  margin: 0.714em auto;
-}
-
-.container:before,
-.container:after {
-  display: table;
-  line-height: 0;
-  content: "";
+body {
+    background-color: @background-color;
 }
 
-.container:after {
-  clear: both;
-}
-.navbar {
-  position: relative;
-  *position: relative;
-  *z-index: 2;
-  overflow: visible;
-  margin-bottom: 0.5em;
+a {
+    color: @link-color;
+    &:hover {
+        color: lighter(@link-color, 15%);
+    }
 }
 
-.navbar-inner {
-  height: 5.357em;
-  margin-bottom: 0em;
-}
-.navbar-left{
-  float: left;
-  width: 50%;
-}
-.navbar-right{
-  float: right;
-  width:58.571em;
-  text-align:right;
+.nav-stacked {
+    .divider {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
 }
 
-.navbar .logo {
-  display: block;
-  padding-top: 0.143em;
-  line-height: 5.357em;
-}
-.navbar .logo img {
-  border: 0;
-}
-.navbar .logo:hover {
-  text-decoration: none;
-}
-.navbar .toolbar {
-  font-size: 0.85em;
-  line-height: 1.2em;
-  display: block;
-  float: right;
-  color: #111;
-}
-.navbar .toolbar-item
-{
-  float: left;
-  padding: 0.357em 0.714em 0 0.714em;
-  text-align: center;
-  height: 2.571em;
-}
-/* Flags */
-.navbar .toolbar-item .flags
-{
-
-  padding: 0 0.286em 0 0.714em;
-}
-.navbar .toolbar-item .flags .flag
-{
-  margin-right: 0.214em;
-  display: inline-block; zoom:1; *display:inline; *zoom:1
-}
-.navbar .toolbar-item .flags .flag-active{
-  padding-bottom: 0.143em;
-  border-bottom: 0.214em solid #0089CD;
-}
-.navbar .toolbar-item-separator
-{
-  float: left;
-  width: 1px;
-  border-right: 1px solid #0089CD;
-  margin:  0;
-  height: 3em;
-}
-.navbar .username {
-  font-weight: bold;
-}
-/* main */
-.main {
-  margin: 0 auto 0.5em auto;
-}
-/* sidebar-left */
-.sidebar-left {
-  width: 14.5em;
-  margin-right: 0.5em;
-  float: left;
-}
-/* content */
-.content {
-  margin-left: 15em;
-  width: 53.571em;
-  /*overflow:auto;*/
-}
-.content-block {
-  min-height: 21.429em;
-  background-color: white;
-  padding: 0.714em;
-}
-.content-block-title {
-  padding: 0.357em 0.714em;
-  background-color: white;
-
-  margin-bottom: 0.5em;
-  font-weight: bold;
-}
-/* sidebar-right */
-.sidebar-right {
-  padding: 0.429em 0.714em 0.714em 0.714em;
-  width: 12.857em;
-  float: right;
-  background-color: white;
-}
-/* footer */
-.footer {
-  display: block;
-  text-align: center;
+.main-container {
+    background: #fff;
 }
 
-.footer-inner {
-  padding: 0.214em 0;
-  background-color: #fff;
-  font-size: 0.75em;
-}
-.rounded-box {
-  border-bottom: 1px solid #333;
-  border-right: 1px solid #333;
-  -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em;
-}
-.rounded-tl,
-.rounded-tr,
-.rounded-bl,
-.rounded-br {
-  border-bottom: 1px solid #333;
-  border-right: 1px solid #333;
-}
-.rounded-tl {
-  -webkit-border-top-left-radius: 0.5em;
-  -moz-border-top-left-radius: 0.5em;
-  border-top-left-radius: 0.5em;
-}
-.rounded-tr {
-  -webkit-border-top-right-radius: 0.5em;
-  -moz-border-top-right-radius: 0.5em;
-  border-top-right-radius: 0.5em;
-}
-.rounded-bl {
-  -webkit-border-bottom-left-radius: 0.5em;
-  -moz-border-bottom-left-radius: 0.5em;
-  border-top-bottom-radius: 0.5em;
-}
-.rounded-br {
-  -webkit-border-bottom-right-radius: 0.5em;
-  -moz-border-bottom-right-radius: 0.5em;
-  border-bottom-right-radius: 0.5em;
-}
-.navbar .menu {
-  position: absolute;
-  bottom: 0.714em;
-  right: 0.714em;
-  width:57.143em;
-}
-.navbar .menu ul {
-  list-style-type: none;
-
-  margin: 0;
-}
-.navbar .menu ul li {
-  line-height: 1.2em;
-  margin: 0 0.429em;
-  vertical-align:top;
-  display: inline-block; zoom:1; *display:inline; *zoom:1
-}
-.navbar .menu ul li a,
-.navbar .menu ul li a:link,
-.navbar .menu ul li a:visited,
-{
-  color: #0089CD;
-}
-.navbar .menu ul li a:hover {
-  color: #FF7722;
-}
-.navbar .menu ul li.active {
-  border-bottom: 0.357em solid #0089CD;
-}
-.navbar .menu ul li.active a, .navbar .menu ul li.active span{
-  padding-bottom: 0.357em;
-}
-.clear {
-  clear: both !important;
-}
-.clear-left {
-  clear: left !important;
-}
-.clear-right {
-  clear: right !important;
-}
-.block {
-  background-color: white;
-  padding: 0.429em 0.714em 0.714em 0.714em;
-  margin-bottom: 0.5em;
-}

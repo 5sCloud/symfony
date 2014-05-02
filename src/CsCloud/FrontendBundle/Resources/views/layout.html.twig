@@ -33,104 +33,59 @@
     </head>
     <body class="{% if (body_class is defined) %} {{ body_class }}{% endif %}">
 
-    <div class="container">
-        <div class="navbar">
-            <div class="navbar-inner block rounded-box">
-                <div class="navbar-left">
-		  {% block navbar_left %}
-		  <img src="/images/Home.png">  Nome Cognome    Gruppo1 - Gruppo2
-		  {% endblock %}
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#_"><img src="{{ asset('/images/Home.png') }}" /></a>
                 </div>
-                <div class="navbar-right">
-                    <div class="toolbar">
-                        {% block toolbar %}
-                        <img src="/images/Contatti.png">
-                        <img src="/images/Messaggi.png">
-                        <img src="/images/Alert.png">
-                        <img src="/images/Profilo.png">
-                        <img src="/images/Settaggi.png">
-                        <img src="/images/Help.png">
-            			<img src="/images/Ricerca.png">
-			            {% endblock %}
+                <p class="navbar-text">Nome Cognome - Gruppo 1 Gruppo 2</p>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Impostazioni"><i class="glyphicon glyphicon-cog"></i></a></li>
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Contatti"><i class="glyphicon glyphicon-phone"></i></a></li>
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Messaggi"><i class="glyphicon glyphicon-comment"></i></a></li>
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Alert"><i class="glyphicon glyphicon-warning-sign"></i></a></li>
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Profilo"><i class="glyphicon glyphicon-user"></i></a></li>
+                    <li><a href="#" rel="tooltip" data-placement="bottom" title="Help"><i class="glyphicon glyphicon-question-sign"></i></a></li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ricerca" />
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-default">Cerca</button>
+                </form>
             </div>
-            <!-- /navbar-inner -->
-        </div>
-        <!-- /navbar -->
-        
-        <div class="main">
-            <div class="main-inner">
-                <div class="sidebar-left">
-		  <div class="rounded-box block">
-		     {% block menu %}
-                     <div class="menu" id="menu">
-                        <ul>
-                            <li class="active">
-                                <a href='#file'>File</a>
-                            </li>
-                            <li>
-                                <a href='#attivita'>Attività</a>
-                            </li>
-                            <li>
-                                <a href='#documenti'>Documenti</a>
-                            </li>
-                            <li>
-                                <a href='#sheet'>Fogli di Calcolo</a>
-                            </li>
-                            <li>
-                                <a href='#picture'>Immagini</a>
-                            </li>
-                            <li>
-                                <a href='#news'>News</a>
-                            </li>
-                            <li>
-                                <a href='#bookmark'>Bookmark</a>
-                            </li>
-                            <li>
-                                <a href='#calendario'>Calendario</a>
-                            </li>
-                            <li>
-                                <a href='#contatti'>Contatti</a>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li class="active">
-                                <a href='#profilo'>Profilo</a>
-                            </li>
-                            <li>
-                                <a href='#settaggi'>Settaggi</a>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li class="active">
-                                <a href='#uscita'>uscita</a>
-                            </li>
-                        </ul>
-                    </div>
-		     {% endblock %}
-                  </div>
-		  <div class="content">
-		  {% block content %}
-                    <div class="rounded-box block"></div>
-		  {% endblock %}
-		  </div>
-            </div>
-            <!-- /main-inner -->
-            <div class="clear"></div>
-        </div>
-        <!-- /main -->
-        <div class="footer">
-            <div class="footer-inner rounded-box">
-            </div>
-        <!-- /footer-inner -->
-        </div>
+        </nav>
 
-    </div>
+        <div class="container">
+            <div class="col-md-3 col-xs-4">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href='#file'>File</a></li>
+                    <li><a href='#attivita'>Attività</a></li>
+                    <li><a href='#documenti'>Documenti</a></li>
+                    <li><a href='#sheet'>Fogli di Calcolo</a></li>
+                    <li><a href='#picture'>Immagini</a></li>
+                    <li><a href='#news'>News</a></li>
+                    <li><a href='#bookmark'>Bookmark</a></li>
+                    <li><a href='#calendario'>Calendario</a></li>
+                    <li><a href='#contatti'>Contatti</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href='#profilo'>Profilo</a></li>
+                    <li><a href='#settaggi'>Settaggi</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href='#uscita'>uscita</a></li>
+                </ul>
+            </div>
+            <div class="col-md-9 col-xs-8 clearfix main-container container-fluid">
+                {% block body %}
+                    MAIN CONTENT
+                {% endblock %}
+            </div>
+        </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         {% javascripts 
                        '@CsCloudFrontendBundle/Resources/assets/js/bootstrap/modal.js'
+                       '@CsCloudFrontendBundle/Resources/assets/js/bootstrap/tooltip.js'
                        '@CsCloudFrontendBundle/Resources/assets/js/main.js'
             filter="?closure" output="js/compiled/main.js" %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
