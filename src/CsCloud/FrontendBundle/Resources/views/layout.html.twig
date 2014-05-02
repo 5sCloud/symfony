@@ -33,11 +33,100 @@
     </head>
     <body class="{% if (body_class is defined) %} {{ body_class }}{% endif %}">
 
-        <div class="viewport">
-            <div class="body-container">
-                {% block body %}{% endblock %}
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner block rounded-box">
+                <div class="navbar-left">
+		  {% block navbar_left %}
+		  <img src="/images/Home.png">  Nome Cognome    Gruppo1 - Gruppo2
+		  {% endblock %}
+                </div>
+                <div class="navbar-right">
+                    <div class="toolbar">
+                        {% block toolbar %}
+                        <img src="/images/Contatti.png">
+                        <img src="/images/Messaggi.png">
+                        <img src="/images/Alert.png">
+                        <img src="/images/Profilo.png">
+                        <img src="/images/Settaggi.png">
+                        <img src="/images/Help.png">
+            			<img src="/images/Ricerca.png">
+			            {% endblock %}
+                    </div>
+                </div>
             </div>
+            <!-- /navbar-inner -->
         </div>
+        <!-- /navbar -->
+        
+        <div class="main">
+            <div class="main-inner">
+                <div class="sidebar-left">
+		  <div class="rounded-box block">
+		     {% block menu %}
+                     <div class="menu" id="menu">
+                        <ul>
+                            <li class="active">
+                                <a href='#file'>File</a>
+                            </li>
+                            <li>
+                                <a href='#attivita'>Attività</a>
+                            </li>
+                            <li>
+                                <a href='#documenti'>Documenti</a>
+                            </li>
+                            <li>
+                                <a href='#sheet'>Fogli di Calcolo</a>
+                            </li>
+                            <li>
+                                <a href='#picture'>Immagini</a>
+                            </li>
+                            <li>
+                                <a href='#news'>News</a>
+                            </li>
+                            <li>
+                                <a href='#bookmark'>Bookmark</a>
+                            </li>
+                            <li>
+                                <a href='#calendario'>Calendario</a>
+                            </li>
+                            <li>
+                                <a href='#contatti'>Contatti</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="active">
+                                <a href='#profilo'>Profilo</a>
+                            </li>
+                            <li>
+                                <a href='#settaggi'>Settaggi</a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="active">
+                                <a href='#uscita'>uscita</a>
+                            </li>
+                        </ul>
+                    </div>
+		     {% endblock %}
+                  </div>
+		  <div class="content">
+		  {% block content %}
+                    <div class="rounded-box block"></div>
+		  {% endblock %}
+		  </div>
+            </div>
+            <!-- /main-inner -->
+            <div class="clear"></div>
+        </div>
+        <!-- /main -->
+        <div class="footer">
+            <div class="footer-inner rounded-box">
+            </div>
+        <!-- /footer-inner -->
+        </div>
+
+    </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         {% javascripts 
