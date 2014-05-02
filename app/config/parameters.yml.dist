@@ -11,5 +11,8 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
-    locale:            en
+    locale:            it
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    domain:            m5s.local
+    api_domain:        api.m5s.local
