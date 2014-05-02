@@ -27,7 +27,9 @@
         "problematic/acl-manager-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "~2.4",
         "lifo/php-ipc": "dev-master",
-        "presta/sitemap-bundle": "~1.2"
+        "presta/sitemap-bundle": "~1.2",
+        "facebook/fbmock": "dev-master",
+        "nelmio/api-doc-bundle": "@stable"
     },
     "scripts": {
         "post-install-cmd": [

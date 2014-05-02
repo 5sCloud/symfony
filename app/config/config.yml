@@ -75,3 +75,27 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+sensio_framework_extra:
+    view:
+        annotations: false
+
+nelmio_api_doc:
+    sandbox:
+        enabled: false
+
+fos_rest:
+    format_listener:
+        rules:
+            - { path: '^/', host: %api_domain%, priorities: ['json', 'xml', '*/*'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: html, prefer_extension: true }
+    view:
+        view_response_listener: true
+    routing_loader:
+        default_format: json
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+    serializer:
+        serialize_null: true

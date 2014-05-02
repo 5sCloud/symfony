@@ -1,3 +1,8 @@
+cs_cloud_api:
+    resource: "@CsCloudApiBundle/Resources/config/routing.yml"
+    host:     %api_domain%
+    prefix:   /
+
 cs_cloud_frontend:
     resource: "@CsCloudFrontendBundle/Resources/config/routing.yml"
     prefix:   /
