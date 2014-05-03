@@ -1,18 +1,27 @@
 parameters:
-    database_driver:   pdo_mysql
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
+    database_driver:    pdo_mysql
+    database_host:      127.0.0.1
+    database_port:      ~
+    database_name:      m5s_app
+    database_user:      root
+    database_password:  ~
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport:   smtp
+    mailer_host:        127.0.0.1
+    mailer_user:        ~
+    mailer_password:    ~
 
-    locale:            it
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    locale:             it
+    secret:             ThisTokenIsNotSoSecretChangeIt
 
-    domain:            m5s.local
-    api_domain:        api.m5s.local
+    domain:             m5s.local
+    api_domain:         api.m5s.local
+
+    oauth_client_id:    1_2hjmbyw63caog0wwccg00wckwc0soko0g8k880os4w4gs4kowk
+    oauth_client_secret: 24xqzjlt3ntwwk8w8ockw84csskw4g0wooogsws8gsssw400s4
+    api_base_url:       http://%api_domain%/app_dev.php
+    token_url:          %api_base_url%/oauth/v2/token
+    auth_url:           %api_base_url%/oauth/v2/auth
+    info_url:           %api_base_url%/user/info
+    logout_pattern:     /oauth/v2/auth_logout
+    logout_url:         %api_base_url%%logout_pattern%

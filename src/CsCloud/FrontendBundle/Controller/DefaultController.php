@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
+    use \CsCloud\CoreBundle\Controller\ApiTrait;
     public function homepageAction()
     {
         return $this->render('CsCloudFrontendBundle:Default:homepage.html.twig');

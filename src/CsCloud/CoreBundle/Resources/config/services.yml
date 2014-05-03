@@ -1,7 +1,27 @@
 parameters:
-#    cs_cloud_core.example.class: CsCloud\CoreBundle\Example
+    cs_cloud_core.oauth_event_listener.class: CsCloud\ApiBundle\EventListener\OAuthEventListener
+    cs_cloud_core.api_request_manager.class: CsCloud\CoreBundle\Services\Util\ApiManager
+    cs_cloud_core.user.provider.class: CsCloud\CoreBundle\Security\User\OAuthUserProvider
 
 services:
-#    cs_cloud_core.example:
-#        class: %cs_cloud_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cs_cloud_core.oauth_event_listener:
+        class:  %cs_cloud_core.oauth_event_listener.class%
+        arguments:
+            doctrine: "@doctrine"
+        tags:
+            - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
+            - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
+
+    cs_cloud_core.api_request_manager:
+        class: %cs_cloud_core.api_request_manager.class%
+        arguments:
+            - "@kernel"
+            - "@request_stack"
+            - "@security.context"
+            - "%api_domain%"
+
+    cs_cloud_code.user.provider:
+        class: %cs_cloud_core.user.provider.class%
+        arguments:
+            - @fos_user.user_manager
+            - {cscloud: id}

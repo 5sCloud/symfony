@@ -1,7 +1,9 @@
 parameters:
-#    cs_cloud_api.example.class: CsCloud\ApiBundle\Example
+    cs_cloud_api.logout_success_handler.class: CsCloud\ApiBundle\Security\LogoutSuccessHandler
 
 services:
-#    cs_cloud_api.example:
-#        class: %cs_cloud_api.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cs_cloud_api.logout_success_handler:
+        class: %cs_cloud_api.logout_success_handler.class%
+        arguments:
+            - "@security.http_utils"
+            - "/"

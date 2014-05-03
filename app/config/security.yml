@@ -1,38 +1,68 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        fos_userbundle:
+            id: fos_user.user_provider.username
+        hwioauthbundle:
+            id: cs_cloud_code.user.provider
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
-        secured_area:
-            pattern:    ^/demo/secured/
+        oauth_authorize:
+            pattern:                ^/oauth/v2/auth
+            host:                   %api_domain%
             form_login:
-                check_path: _security_check
-                login_path: _demo_login
+                provider:           fos_userbundle
+                check_path:         /oauth/v2/auth_login_check
+                login_path:         /oauth/v2/auth_login
             logout:
-                path:   _demo_logout
-                target: _demo
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+                path:               fos_user_security_logout
+                success_handler:    cs_cloud_api.logout_success_handler
+            security:               true
+            anonymous:              true
+
+        oauth_token:
+            pattern:                ^/oauth/v2/token
+            host:                   %api_domain%
+            security:               false
+
+        api:
+            pattern:                ^/
+            host:                   %api_domain%
+            fos_oauth:              true
+            stateless:              true
+            anonymous:              true
+
+        frontend:
+            anonymous:              true
+            logout:
+                path:               cs_cloud_frontend_logout
+                success_handler:    cs_cloud_frontend.logout_success_handler
+            oauth:
+                resource_owners:
+                    cscloud:        "/auth-check"
+                login_path:         /connect
+                use_forward:        false
+                failure_path:       /connect
+
+                oauth_user_provider:
+                    service: cs_cloud_code.user.provider
 
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/_profiler, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/oauth/v2/auth_login, host: %api_domain%, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/oauth/v2/auth_logout, host: %api_domain%, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, host: %api_domain%, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

@@ -1,7 +1,11 @@
 parameters:
-#    cs_cloud_frontend.example.class: CsCloud\FrontendBundle\Example
+    cs_cloud_frontend.logout_success_handler.class: CsCloud\FrontendBundle\Security\LogoutSuccessHandler
 
 services:
-#    cs_cloud_frontend.example:
-#        class: %cs_cloud_frontend.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cs_cloud_frontend.logout_success_handler:
+        class: %cs_cloud_frontend.logout_success_handler.class%
+        arguments:
+            - "@security.http_utils"
+            - "@security.context"
+            - "%logout_url%"
+            - "/"

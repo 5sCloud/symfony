@@ -2,9 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+parameters:
+    hwi_oauth.user.provider.class: CsCloud\CoreBundle\Security\User\OAuthUserProvider
+
 framework:
-    #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    esi:             ~
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -87,6 +90,7 @@ nelmio_api_doc:
 fos_rest:
     format_listener:
         rules:
+            - { path: '^/oauth', host: %api_domain%, priorities: [ 'html', '*/*'], fallback_format: html, prefer_extension: true }
             - { path: '^/', host: %api_domain%, priorities: ['json', 'xml', '*/*'], fallback_format: json, prefer_extension: false }
             - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: html, prefer_extension: true }
     view:
@@ -99,3 +103,47 @@ fos_rest:
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
     serializer:
         serialize_null: true
+
+jms_serializer:
+    metadata:
+        directories:
+            FOSUB:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/Resources/serializer/FOSUserBundle"
+
+fos_user:
+    db_driver: orm
+    firewall_name: oauth_authorize
+    user_class: CsCloud\CoreBundle\Entity\User
+
+hwi_oauth:
+    firewall_name: frontend
+    resource_owners:
+        cscloud:
+            type:                oauth2
+            client_id:           %oauth_client_id%
+            client_secret:       %oauth_client_secret%
+            access_token_url:    %token_url%
+            authorization_url:   %auth_url%
+            infos_url:           %info_url%
+            scope:               "read"
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: id
+                nickname:   username
+                realname:   fullname
+    fosub:
+        username_iterations: 30
+        properties:
+            cscloud: id
+
+fos_oauth_server:
+    db_driver: orm       # Driver availables: orm, mongodb, or propel
+    client_class:        CsCloud\CoreBundle\Entity\Client
+    access_token_class:  CsCloud\CoreBundle\Entity\AccessToken
+    refresh_token_class: CsCloud\CoreBundle\Entity\RefreshToken
+    auth_code_class:     CsCloud\CoreBundle\Entity\AuthCode
+    service:
+        user_provider: fos_user.user_manager
+        options:
+            supported_scopes: read

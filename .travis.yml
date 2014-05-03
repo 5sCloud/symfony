@@ -3,6 +3,11 @@ php:
   - 5.4
   - 5.5
 
+before_script:
+  - mysql -uroot -e 'create database m5s_app;'
+  - mysql -uroot m5s_app < data/dump.sql
+  - php app/console fos:user:create admin admin@m5s.local admin --super-admin
+
 script: phpunit -c app/
 
 install:
@@ -11,4 +16,8 @@ install:
 
 notifications:
   email: false
+
+addon:
+  hosts:
+    api.m5s.local
 

@@ -29,7 +29,8 @@
         "lifo/php-ipc": "dev-master",
         "presta/sitemap-bundle": "~1.2",
         "facebook/fbmock": "dev-master",
-        "nelmio/api-doc-bundle": "@stable"
+        "nelmio/api-doc-bundle": "@stable",
+        "hwi/oauth-bundle": ">=0.4@dev"
     },
     "scripts": {
         "post-install-cmd": [

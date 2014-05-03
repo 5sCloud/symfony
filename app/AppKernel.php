@@ -21,6 +21,10 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+
             new CsCloud\FrontendBundle\CsCloudFrontendBundle(),
             new CsCloud\ApiBundle\CsCloudApiBundle(),
             new CsCloud\CoreBundle\CsCloudCoreBundle(),

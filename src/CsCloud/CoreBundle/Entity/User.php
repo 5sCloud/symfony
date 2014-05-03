@@ -2,7 +2,7 @@
 
 namespace CsCloud\CoreBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
@@ -34,6 +34,27 @@ class User extends BaseUser
     private $profile;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection $clients
+     *
+     * @ORM\ManyToMany(targetEntity="Client", inversedBy="users")
+     * @ORM\JoinTable(name="user_client",
+     *          joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *          inverseJoinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")}
+     *      )
+     * @JMS\ReadOnly()
+     */
+    private $clients;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -56,5 +77,58 @@ class User extends BaseUser
         }
 
         return $this->profile;
+    }
+
+    /**
+     * Set profile
+     *
+     * @param \CsCloud\CoreBundle\Entity\UserProfile $profile
+     * @return User
+     */
+    public function setProfile(\CsCloud\CoreBundle\Entity\UserProfile $profile = null)
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * Add clients
+     *
+     * @param \CsCloud\CoreBundle\Entity\Client $clients
+     * @return User
+     */
+    public function addClient(\CsCloud\CoreBundle\Entity\Client $clients)
+    {
+        $this->clients[] = $clients;
+
+        return $this;
+    }
+
+    /**
+     * Remove clients
+     *
+     * @param \CsCloud\CoreBundle\Entity\Client $clients
+     */
+    public function removeClient(\CsCloud\CoreBundle\Entity\Client $clients)
+    {
+        $this->clients->removeElement($clients);
+    }
+
+    /**
+     * Get clients
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    public function isAuthorizedClient(Client $client)
+    {
+        return $this->getClients()->exists(function($key, $element) use ($client) {
+            return $element->getId() === $client->getId();
+        });
     }
 }

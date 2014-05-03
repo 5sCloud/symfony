@@ -1,7 +1,31 @@
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+    host:     %api_domain%
+
+fos_oauth_server_authorize:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
+    host:     %api_domain%
+    prefix:   /
+
 cs_cloud_api:
     resource: "@CsCloudApiBundle/Resources/config/routing.yml"
     host:     %api_domain%
     prefix:   /
+
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /connect
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+custom_login:
+    pattern: /auth-check
 
 cs_cloud_frontend:
     resource: "@CsCloudFrontendBundle/Resources/config/routing.yml"
