@@ -1,5 +1,14 @@
 {% extends "CsCloudFrontendBundle::layout.html.twig" %}
 
-{% block content %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Hello</a></li>
+        <li class="active">{{ name }}</li>
+    </ol>
+{% endblock %}
+
+
+{% block body %}
 Hello {{ name }}!
 {% endblock %}
