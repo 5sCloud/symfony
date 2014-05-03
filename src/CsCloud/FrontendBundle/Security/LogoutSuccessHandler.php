@@ -6,6 +6,7 @@ use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 use CsCloud\CoreBundle\Util\Url;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
@@ -26,7 +27,8 @@ class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
      * @param HttpUtils $httpUtils
      * @param string    $targetUrl
      */
-    public function __construct(HttpUtils $httpUtils, $context, $apiLogoutUrl, $targetUrl = '/')
+    public function __construct(HttpUtils $httpUtils, SecurityContextInterface $context,
+        $apiLogoutUrl, $targetUrl = '/')
     {
         $this->httpUtils = $httpUtils;
         $this->targetUrl = $targetUrl;
