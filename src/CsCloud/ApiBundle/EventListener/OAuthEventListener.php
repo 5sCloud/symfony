@@ -19,10 +19,16 @@ class OAuthEventListener
 
     public function onPreAuthorizationProcess(OAuthEvent $event)
     {
+        if ($event->getClient()->getTrusted()) {
+            $event->setAuthorizedClient(true);
+            return;
+        }
+
         $em = $this->doctrine->getManager();
         $user = $em->getRepository("CsCloudCoreBundle:User")->findOneBy(array(
             'username' => $event->getUser()->getUsername()
         ));
+
         if (null !== $user) {
             $event->setAuthorizedClient($user->isAuthorizedClient($event->getClient()));
         }

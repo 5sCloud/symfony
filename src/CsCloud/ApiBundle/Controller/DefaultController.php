@@ -8,7 +8,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class DefaultController extends BaseRestController
 {
     /**
-     * @REST\Route("/")
+     * @REST\Get("/")
      * @REST\View()
      *
      * @ApiDoc({
@@ -18,7 +18,7 @@ class DefaultController extends BaseRestController
     public function indexAction()
     {
         return $this->view(array(
-            'name' => 'cs-cloud',
+            'name' => 'cscloud',
             'version' => 'dev-experimental'
         ));
     }

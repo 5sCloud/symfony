@@ -105,7 +105,7 @@ CREATE TABLE `Client` (
 
 LOCK TABLES `Client` WRITE;
 /*!40000 ALTER TABLE `Client` DISABLE KEYS */;
-INSERT INTO `Client` VALUES (1,'2hjmbyw63caog0wwccg00wckwc0soko0g8k880os4w4gs4kowk','a:2:{i:0;s:39:\"http://m5s.local/app_dev.php/auth-check\";i:1;s:27:\"http://m5s.local/auth-check\";}','24xqzjlt3ntwwk8w8ockw84csskw4g0wooogsws8gsssw400s4','a:3:{i:0;s:18:\"authorization_code\";i:1;s:5:\"token\";i:2;s:13:\"refresh_token\";}','cscloud',1);
+INSERT INTO `Client` VALUES (1,'2hjmbyw63caog0wwccg00wckwc0soko0g8k880os4w4gs4kowk','a:2:{i:0;s:39:\"http://m5s.local/app_dev.php/auth-check\";i:1;s:27:\"http://m5s.local/auth-check\";}','24xqzjlt3ntwwk8w8ockw84csskw4g0wooogsws8gsssw400s4','a:4:{i:0;s:18:\"authorization_code\";i:1;s:5:\"token\";i:2;s:13:\"refresh_token\";i:3;s:8:\"password\";}','cscloud',1);
 /*!40000 ALTER TABLE `Client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-03 18:17:11
+-- Dump completed on 2014-05-03 20:26:42

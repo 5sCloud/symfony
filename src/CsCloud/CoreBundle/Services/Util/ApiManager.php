@@ -6,9 +6,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 use CsCloud\CoreBundle\Exception\InvalidApiResponseException;
 use CsCloud\CoreBundle\Exception\ApiErrorException;
@@ -70,16 +68,6 @@ class ApiManager
             $acceptLanguage = $currentRequest->server->get('HTTP_ACCEPT_LANGUAGE', $acceptLanguage);
             $acceptCharset = $currentRequest->server->get('HTTP_ACCEPT_CHARSET', $acceptCharset);
         }
-
-        /*
-        $options = array();
-        $token = $this->security_context->getToken();
-        if ($token instanceof OAuthToken) {
-            $options['auth'] = new \CsCloud\CoreBundle\Util\Requests_Auth_Bearer($token->getAccessToken());
-        }
-        \Requests::request($request->getUrl(), $parameters, $headers, $data, $acceptLanguage, $options);
-         *
-         */
 
         $server = array_replace(array(
             'SERVER_NAME'          => 'localhost',

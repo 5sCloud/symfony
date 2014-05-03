@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use CsCloud\CoreBundle\Util\Url;
 
 /**
- * Description of LogoutSuccessHandler
- *
- * @author alekitto
+ * @author Alessandro Chitolina <alekitto@gmail.com>
  */
 class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 {

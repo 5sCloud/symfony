@@ -62,6 +62,7 @@ security:
         - { path: ^/_profiler, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth/v2/auth_login, host: %api_domain%, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth/v2/auth_logout, host: %api_domain%, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, host: %api_domain%, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, host: %api_domain%, roles: IS_AUTHENTICATED_FULLY }
 
         - { path: ^/connect, roles: IS_AUTHENTICATED_ANONYMOUSLY }

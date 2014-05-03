@@ -4,7 +4,7 @@ namespace CsCloud\FrontendBundle\Tests\Security;
 
 use CsCloud\FrontendBundle\Security\LogoutSuccessHandler;
 
-class LogoutHandlerTest extends \PHPUnit_Framework_TestCase
+class LogoutSuccessHandlerTest extends \PHPUnit_Framework_TestCase
 {
     public function testLogoutSuccess()
     {

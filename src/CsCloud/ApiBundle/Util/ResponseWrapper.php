@@ -3,7 +3,6 @@
 namespace CsCloud\ApiBundle\Util;
 
 use Symfony\Component\HttpFoundation\Response;
-use JMS\Serializer\Annotation as JMS;
 
 /**
  * Response wrapper for Api xml response
@@ -41,7 +40,8 @@ class ResponseWrapper
      * @param integer $statusCode HTTP status code
      * @param mixed $data A serializable object
      */
-    public function __construct($statusCode, $data) {
+    public function __construct($statusCode, $data)
+    {
         $this->status = $statusCode;
         $this->message = static::getStatusMessage($statusCode);
         $this->data = $data;
