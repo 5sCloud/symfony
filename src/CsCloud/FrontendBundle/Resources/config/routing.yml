@@ -8,3 +8,7 @@ cs_cloud_frontend_logout:
 cs_cloud_frontend_hello:
     pattern:  /hello/{name}
     defaults: { _controller: CsCloudFrontendBundle:Default:index }
+
+cs_cloud_frontend_profilo:
+    pattern:  /profilo/{Action}
+    defaults: { _controller: CsCloudFrontendBundle:Profile:Edit , Action: "none" }
