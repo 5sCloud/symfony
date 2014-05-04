@@ -75,11 +75,13 @@
                     <li><a href='#uscita'>uscita</a></li>
                 </ul>
             </div>
-            <div class="col-md-9 col-xs-8 breadcrumbs">{% block breadcrumbs %} BREADCRUMBS {% endblock %}</div>
-            <div class="col-md-9 col-xs-8 clearfix main-container container-fluid">
-                {% block body %}
-                    MAIN CONTENT
-                {% endblock %}
+            <div class="col-md-9 col-xs-8 container-fluid">
+                {% block breadcrumbs %}<ol class="breadcrumb"><li class="active">Home</li></ol>{% endblock %}
+                <div class="col-xs-12 clearfix main-container container-fluid">
+                    {% block body %}
+                        MAIN CONTENT
+                    {% endblock %}
+                </div>
             </div>
         </div>
 
