@@ -1,0 +1,5 @@
+{% extends "CsCloudFrontendBundle::odf_layout.html.twig" %}
+
+{% block loadodt %}
+    odfcanvas.load("{{ filename }}");
+{% endblock %}

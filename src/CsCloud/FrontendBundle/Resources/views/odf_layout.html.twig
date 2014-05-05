@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+    <script src="{{ asset('/js/webodf.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        function init() {
+            var odfelement = document.getElementById("odf"),
+                    odfcanvas = new odf.OdfCanvas(odfelement);
+            {% block loadodt %}
+                odfcanvas.load("myfile.odt");
+            {% endblock %}
+        }
+        window.setTimeout(init, 0);
+    </script>
+</head>
+<body>
+    <div id="odf"></div>
+
+</body>
+</html>

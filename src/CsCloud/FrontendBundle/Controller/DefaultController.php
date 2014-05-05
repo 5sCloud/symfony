@@ -16,4 +16,9 @@ class DefaultController extends Controller
     {
         return $this->render('CsCloudFrontendBundle:Default:index.html.twig', array('name' => $name));
     }
+
+    public function odfAction($filename)
+    {
+        return $this->render('CsCloudFrontendBundle:Default:odf.html.twig', array('filename' => $filename));
+    }
 }
