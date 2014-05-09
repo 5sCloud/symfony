@@ -44,7 +44,7 @@ trait ApiTrait
     /**
      * @return ApiManager
      */
-    protected function getApiManager()
+    protected function gewtApiManager()
     {
         return $this->get('cs_cloud_core.api_request_manager');
     }

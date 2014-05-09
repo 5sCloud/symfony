@@ -10,5 +10,9 @@ cs_cloud_frontend_hello:
     defaults: { _controller: CsCloudFrontendBundle:Default:index }
 
 cs_cloud_frontend_profilo:
-    pattern:  /profilo/{Action}
-    defaults: { _controller: CsCloudFrontendBundle:Profile:Edit , Action: "none" }
+    pattern:  /profilo
+    defaults: { _controller: CsCloudFrontendBundle:Profile:Edit }
+
+cs_cloud_frontend_profilo_save:
+    pattern:  /profilo/save
+    defaults: { _controller: CsCloudFrontendBundle:Profile:Save }
