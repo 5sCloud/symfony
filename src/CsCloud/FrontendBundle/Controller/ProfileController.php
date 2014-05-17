@@ -34,7 +34,7 @@ class ProfileController extends Controller
         if ($form->isValid()) {
 
             $registration = $form->getData();
-
+            $registration->setUser($user);
             $url = '/Profile';
             $query = Array ();
             $query["Name"] = $registration->getName();
@@ -44,7 +44,13 @@ class ProfileController extends Controller
             $query["HousePhone"] = $registration->getHousePhone();
             $query["CellPhone"] = $registration->getCellPhone();
 
-            $return = $this->createApiRequest($url, $query);
+            $registration->upload();
+
+            $apiManager = $this->getApiManager();
+            $request = $this->createApiRequest($url);
+            $request->setMethod('POST');
+            $request->setParameters($query);
+            $response = $apiManager->performRequest($request);
 
         }
         return $this->redirect($this->generateUrl('cs_cloud_frontend_profilo'));

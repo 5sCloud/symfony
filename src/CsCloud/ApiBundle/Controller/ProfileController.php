@@ -9,33 +9,39 @@ use Symfony\Component\HttpFoundation\Request;
 class ProfileController extends BaseRestController
 {
     /**
-     * @REST\Get("/Profile")
+     * @REST\Post("/Profile")
      * @REST\View()
      *
      * @ApiDoc({
      *      "description"="save user profile informartion"
      * })
      */
-    public function SaveAction(Request $request)
+    public function postSaveAction(Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        $userprofile = $user->getProfile();
+        try{
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $userprofile = $user->getProfile();
 
-        var_dump($request->query->get('Name'));
-        $userprofile->setName($request->query->get('Name'));
-        $userprofile->setSurname($request->query->get('Surname'));
-        $userprofile->setWork($request->query->get('Work'));
-        $userprofile->setHobby($request->query->get('Hobby'));
-        $userprofile->setHousePhone($request->query->get('HousePhone'));
-        $userprofile->setCellPhone($request->query->get('CellPhone'));
+            $userprofile->setName($request->get('Name'));
+            $userprofile->setSurname($request->get('Surname'));
+            $userprofile->setWork($request->get('Work'));
+            $userprofile->setHobby($request->get('Hobby'));
+            $userprofile->setHousePhone($request->get('HousePhone'));
+            $userprofile->setCellPhone($request->get('CellPhone'));
 
-        $em->persist($userprofile);
-        $em->flush();
+            $em->persist($userprofile);
+            $em->flush();
 
-        return $this->view(array(
-            'return-code' => 'OK',
-            'message' => ''
-        ));
+            return $this->view(array(
+                'return-code' => 'OK',
+                'message' => ''
+            ));
+        } catch(\Doctrine\ORM\ORMException $e) {
+            return $this->view(array(
+                'return-code' => 'ER',
+                'message' => ''
+            ));
+        }
     }
 }

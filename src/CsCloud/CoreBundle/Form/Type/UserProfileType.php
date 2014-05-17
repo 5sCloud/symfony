@@ -15,6 +15,7 @@ class UserProfileType extends AbstractType
         $builder->add('hobby');
         $builder->add('house_phone');
         $builder->add('cell_phone');
+        $builder->add('avatar', 'file');
         $builder->add('Salva', 'submit');
     }
 
