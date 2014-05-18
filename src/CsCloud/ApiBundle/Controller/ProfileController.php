@@ -29,6 +29,9 @@ class ProfileController extends BaseRestController
             $userprofile->setHobby($request->get('Hobby'));
             $userprofile->setHousePhone($request->get('HousePhone'));
             $userprofile->setCellPhone($request->get('CellPhone'));
+            $userprofile->setAvatar($request->get('Avatar'));
+            $userprofile->preUpload();
+            $userprofile->upload();
 
             $em->persist($userprofile);
             $em->flush();

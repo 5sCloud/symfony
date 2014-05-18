@@ -9,10 +9,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="fos_user_profile")
  *
  * @JMS\ExclusionPolicy("all")
- * 
+ *
  */
 class UserProfile
 {
@@ -67,8 +68,6 @@ class UserProfile
      * @Assert\File(maxSize="6000000")
      */
     public $avatar;
-
-    private $temp;
 
     /**
      * Set user
@@ -232,20 +231,6 @@ class UserProfile
         return $this->cell_phone;
     }
 
-    public function getAbsolutePath()
-    {
-        return null === $this->$avatarPath
-            ? null
-            : $this->getUploadRootDir().'/'.$this->$avatarPath;
-    }
-
-    public function getWebPath()
-    {
-        return null === $this->$avatarPath
-            ? null
-            : $this->getUploadDir().'/'.$this->$avatarPath;
-    }
-
     protected function getUploadRootDir()
     {
         // il percorso assoluto della cartella dove i
@@ -258,36 +243,6 @@ class UserProfile
         // togliamo __DIR_ in modo da visualizzare
         // correttamente nella vista il file caricato
         return 'uploads/avatar';
-    }
-
-    public function upload()
-    {
-
-        // the file property can be empty if the field is not required
-        if (!$this->avatar ) {
-            return;
-        }
-
-        if (strtolower($this->avatar->getClientOriginalExtension()) != 'jpg' && strtolower($this->avatar->getClientOriginalExtension()) != 'png') {
-            return;
-        }
-
-
-
-        // we use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-        $filename = "";
-
-        $filename = sha1(hash("sha1", $this->getUser()->getId(), $raw_output=FALSE)) . "." . $this->avatar->getClientOriginalExtension();
-
-        // move takes the target directory and then the target filename to move to
-        $this->avatar->move($this->getUploadRootDir(), $filename );
-
-        // set the path property to the filename where you'ved saved the file
-        $this->setAvatarPath($filename);
-
-        // clean up the file property as you won't need it anymore
-        unset($this->avatar);
     }
 
     /**
@@ -310,23 +265,69 @@ class UserProfile
         return $this->avatarPath;
     }
 
+
     /**
-     * Sets file.
+     * Sets avatar.
      *
      * @param UploadedFile $file
      */
-    public function setAvatar(UploadedFile $avatar = null)
+    public function setAvatar(UploadedFile $file = null)
     {
-        $this->avatar = $avatar;
+        $this->avatar = $file;
     }
 
     /**
-     * Get file.
+     * get avatar.
      *
      * @return UploadedFile
      */
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+
+        if (null !== $this->getAvatar()) {
+            // check if we have an old image
+            if (isset($this->avatarPath)) {
+                unlink($this->getUploadRootDir() . "/" . $this->avatarPath);
+            }
+            $this->setAvatarPath( sha1(hash("sha1", $this->getUser()->getId(), $raw_output=FALSE)) . "." . $this->getAvatar()->guessExtension());
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getAvatar()) {
+            return;
+        }
+
+        // you must throw an exception here if the file cannot be moved
+        // so that the entity is not persisted to the database
+        // which the UploadedFile move() method does
+        $this->getAvatar()->move(
+            $this->getUploadRootDir(),
+            $this->getAvatarPath()
+        );
+
+        $this->setAvatar(null);
+    }
+
+
+    public function getAbsolutePath()
+    {
+        return null === $this->avatarPath
+            ? null
+            : $this->getUploadRootDir().'/'. sha1(hash("sha1", $this->getUser()->getId(), $raw_output=FALSE)) .'.'.$this->avatarPath;
     }
 }

@@ -43,11 +43,11 @@ class ProfileController extends Controller
             $query["Hobby"] = $registration->getHobby();
             $query["HousePhone"] = $registration->getHousePhone();
             $query["CellPhone"] = $registration->getCellPhone();
-
-            $registration->upload();
+            $query["Avatar"] = $registration->getAvatar();
 
             $apiManager = $this->getApiManager();
             $request = $this->createApiRequest($url);
+            //$request->getFilesBag()->add();
             $request->setMethod('POST');
             $request->setParameters($query);
             $response = $apiManager->performRequest($request);
