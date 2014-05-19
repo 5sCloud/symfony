@@ -7,9 +7,7 @@ use CsCloud\CoreBundle\Services\Util\ApiManager;
 use CsCloud\CoreBundle\Services\Util\ApiRequest;
 
 use CsCloud\CoreBundle\Exception\InvalidApiResponseException;
-use CsCloud\CoreBundle\Exception\ApiErrorException;
-
-use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Description of ApiTrait
@@ -66,5 +64,37 @@ trait ApiTrait
         }
 
         return $request;
+    }
+
+    protected function createApiRequestFromRequest(
+        Request $request,
+        $uri,
+        $query = array(),
+        $options = array()
+    )
+    {
+        $options = array_replace(array(
+            'param_name'    => null,
+            'method'        => $request->getMethod(),
+            'remove_token'  => '_token'
+        ), $options);
+        $req = $this->createApiRequest($uri, $query);
+        $req->setMethod($options['method']);
+
+        $param_name = $options['param_name'];
+        $params = $param_name !== null ? $request->request->get($param_name) : $request->request->all();
+        if (($token_field = $options['remove_token'])) {
+            unset($params[ $token_field ]);
+        }
+        if ($params) {
+            $req->setParameters($params);
+        }
+
+        $files = array_filter($param_name !== null ? $request->files->get($param_name) : $request->files->all());
+        if ($files) {
+            $req->getFilesBag()->replace($files);
+        }
+
+        return $req;
     }
 }

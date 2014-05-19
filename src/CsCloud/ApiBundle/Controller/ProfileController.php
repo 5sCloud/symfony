@@ -4,47 +4,49 @@ namespace CsCloud\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as REST;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Symfony\Component\HttpFoundation\Request;
 
+use CsCloud\CoreBundle\Entity\User;
+
+/**
+ * CRUD controller for UserProfile entity
+ *
+ * @author Alessandro Chitolina <alekitto@gmail.com>
+ * @author Edoardo Rossi <edo@ravers.it>
+ */
 class ProfileController extends BaseRestController
 {
     /**
-     * @REST\Post("/Profile")
+     * @REST\Post("/profile")
      * @REST\View()
      *
      * @ApiDoc({
-     *      "description"="save user profile informartion"
+     *      "description" = "Save user profile information"
      * })
      */
-    public function postSaveAction(Request $request)
+    public function saveAction(Request $request)
     {
-        try{
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $em = $this->getDoctrine()->getManager();
-            $userprofile = $user->getProfile();
+        // Get current user
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
 
-            $userprofile->setName($request->get('Name'));
-            $userprofile->setSurname($request->get('Surname'));
-            $userprofile->setWork($request->get('Work'));
-            $userprofile->setHobby($request->get('Hobby'));
-            $userprofile->setHousePhone($request->get('HousePhone'));
-            $userprofile->setCellPhone($request->get('CellPhone'));
-            $userprofile->setAvatar($request->get('Avatar'));
-            $userprofile->preUpload();
-            $userprofile->upload();
-
-            $em->persist($userprofile);
-            $em->flush();
-
-            return $this->view(array(
-                'return-code' => 'OK',
-                'message' => ''
-            ));
-        } catch(\Doctrine\ORM\ORMException $e) {
-            return $this->view(array(
-                'return-code' => 'ER',
-                'message' => ''
-            ));
+        // User is not an entity (probably the user is not logged in)
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException();
         }
+
+        $profile = $user->getProfile();
+        $form = $this->get('form.factory')->createNamed(null, 'cscloud_userprofile', $profile, array('csrf_protection' => false));
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em->persist($profile);
+            $em->flush();
+        } else {
+            return $this->view($this->getAllErrors($form), 400);
+        }
+
+        return $this->view($profile);
     }
 }

@@ -3,6 +3,7 @@
 namespace CsCloud\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use CsCloud\ApiBundle\View\View;
 use CsCloud\ApiBundle\Util\ResponseWrapper;
 
@@ -17,6 +18,7 @@ use JMS\Serializer\SerializationContext;
 abstract class BaseRestController extends FOSRestController
 {
     use \CsCloud\CoreBundle\Controller\RequestTrait;
+    use \CsCloud\CoreBundle\Controller\FormErrorsTrait;
 
     protected $serializationGroups = array();
     protected $serializationContext = null;
@@ -31,7 +33,8 @@ abstract class BaseRestController extends FOSRestController
      * @param array $headers
      * @return View
      */
-    protected function view($data = null, $statusCode = 200, array $headers = array()) {
+    protected function view($data = null, $statusCode = 200, array $headers = array())
+    {
         $view = View::create(new ResponseWrapper($statusCode, $data), $statusCode, $headers);
         $view->setSerializationContext($this->getSerializationContext());
 
@@ -53,7 +56,8 @@ abstract class BaseRestController extends FOSRestController
      *
      * @return SerializationContext
      */
-    protected function getSerializationContext() {
+    protected function getSerializationContext()
+    {
         if ($this->serializationContext === null) {
             $this->initSerializationContext();
         }
@@ -64,12 +68,22 @@ abstract class BaseRestController extends FOSRestController
     /**
      * Creates a new serialization context
      */
-    protected function initSerializationContext() {
+    protected function initSerializationContext()
+    {
         $this->serializationContext = new SerializationContext();
 
         $this->serializationContext->setSerializeNull(true);
         if ($this->serializationGroups) {
             $this->serializationContext->setGroups($this->serializationGroups);
         }
+    }
+
+    protected function createAccessDeniedException($message = null)
+    {
+        if (null === $message) {
+            $message = ResponseWrapper::getStatusMessage(403);
+        }
+
+        return new AccessDeniedHttpException($message);
     }
 }

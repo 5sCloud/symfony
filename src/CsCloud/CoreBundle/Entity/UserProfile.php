@@ -4,7 +4,8 @@ namespace CsCloud\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use CsCloud\CoreBundle\File\CondemnedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @JMS\ExclusionPolicy("all")
  *
+ * @author Alessandro Chitolina <alekitto@gmail.com>
+ * @author Edoardo Rossi <edo@ravers.it>
  */
 class UserProfile
 {
@@ -25,49 +28,78 @@ class UserProfile
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
+     * @JMS\Expose()
      * @JMS\ReadOnly()
      */
     private $user;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
     protected $name;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=100)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
     protected $surname;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
     protected $work;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
     protected $hobby;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
-    protected $house_phone;
+    protected $housePhone;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
-    protected $cell_phone;
+    protected $cellPhone;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @JMS\Expose()
+     * @JMS\ReadOnly()
      */
-    public $avatarPath;
+    protected $avatarFilename;
 
     /**
      * @Assert\File(maxSize="6000000")
      */
-    public $avatar;
+    protected $avatar;
 
     /**
      * Set user
@@ -186,49 +218,49 @@ class UserProfile
     }
 
     /**
-     * Set house_phone
+     * Set housePhone
      *
      * @param string $housePhone
      * @return UserProfile
      */
     public function setHousePhone($housePhone)
     {
-        $this->house_phone = $housePhone;
+        $this->housePhone = $housePhone;
 
         return $this;
     }
 
     /**
-     * Get house_phone
+     * Get housePhone
      *
      * @return string
      */
     public function getHousePhone()
     {
-        return $this->house_phone;
+        return $this->housePhone;
     }
 
     /**
-     * Set cell_phone
+     * Set cellPhone
      *
      * @param string $cellPhone
      * @return UserProfile
      */
     public function setCellPhone($cellPhone)
     {
-        $this->cell_phone = $cellPhone;
+        $this->cellPhone = $cellPhone;
 
         return $this;
     }
 
     /**
-     * Get cell_phone
+     * Get cellPhone
      *
      * @return string
      */
     public function getCellPhone()
     {
-        return $this->cell_phone;
+        return $this->cellPhone;
     }
 
     protected function getUploadRootDir()
@@ -240,9 +272,23 @@ class UserProfile
 
     protected function getUploadDir()
     {
-        // togliamo __DIR_ in modo da visualizzare
+        // togliamo __DIR__ in modo da visualizzare
         // correttamente nella vista il file caricato
         return 'uploads/avatar';
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->getAvatarFilename()
+            ? null
+            : $this->getUploadRootDir().'/'. $this->getAvatarFilename();
+    }
+
+    public function getRelativePath()
+    {
+        return null === $this->getAvatarFilename()
+            ? null
+            : $this->getUploadDir().'/'. $this->getAvatarFilename();
     }
 
     /**
@@ -250,9 +296,9 @@ class UserProfile
      *
      * @param string $file
      */
-    public function setAvatarPath($file = null)
+    public function setAvatarFilename($file = null)
     {
-        $this->avatarPath = $file;
+        $this->avatarFilename = $file;
     }
 
     /**
@@ -260,18 +306,17 @@ class UserProfile
      *
      * @return string
      */
-    public function getAvatarPath()
+    public function getAvatarFilename()
     {
-        return $this->avatarPath;
+        return $this->avatarFilename;
     }
-
 
     /**
      * Sets avatar.
      *
-     * @param UploadedFile $file
+     * @param File $file
      */
-    public function setAvatar(UploadedFile $file = null)
+    public function setAvatar(File $file = null)
     {
         $this->avatar = $file;
     }
@@ -279,11 +324,40 @@ class UserProfile
     /**
      * get avatar.
      *
-     * @return UploadedFile
+     * @return File
      */
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    protected function generateAvatarFilename()
+    {
+        if ($this->getAvatar() === null) {
+            return $this->getAvatarFilename();  // No change
+        }
+
+        if ($this->getAvatar() instanceof CondemnedFile) {
+            return null;
+        }
+
+        $filename = sha1($this->getUser()->getId());
+        $extension = $this->getAvatar()->guessExtension() or
+            $extension = $this->getAvatar()->guessClientExtension() or
+            $extension = $this->getAvatar()->getExtension();
+
+        if ($extension !== null) {
+            $filename .= ".{$extension}";
+        }
+        return $filename;
+    }
+
+    protected function removeAvatarFile()
+    {
+        $oldPath = $this->getAbsolutePath();
+        if (null !== $oldPath) {
+            @unlink($oldPath);
+        }
     }
 
     /**
@@ -292,14 +366,7 @@ class UserProfile
      */
     public function preUpload()
     {
-
-        if (null !== $this->getAvatar()) {
-            // check if we have an old image
-            if (isset($this->avatarPath)) {
-                unlink($this->getUploadRootDir() . "/" . $this->avatarPath);
-            }
-            $this->setAvatarPath( sha1(hash("sha1", $this->getUser()->getId(), $raw_output=FALSE)) . "." . $this->getAvatar()->guessExtension());
-        }
+        $this->setAvatarFilename($this->generateAvatarFilename());
     }
 
     /**
@@ -312,22 +379,16 @@ class UserProfile
             return;
         }
 
+        $this->removeAvatarFile();
+
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
         $this->getAvatar()->move(
             $this->getUploadRootDir(),
-            $this->getAvatarPath()
+            $this->getAvatarFilename()
         );
 
         $this->setAvatar(null);
-    }
-
-
-    public function getAbsolutePath()
-    {
-        return null === $this->avatarPath
-            ? null
-            : $this->getUploadRootDir().'/'. sha1(hash("sha1", $this->getUser()->getId(), $raw_output=FALSE)) .'.'.$this->avatarPath;
     }
 }

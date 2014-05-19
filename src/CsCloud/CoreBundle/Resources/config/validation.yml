@@ -1,0 +1,6 @@
+CsCloud\CoreBundle\Entity\UserProfile:
+    properties:
+        name:
+            - NotBlank: ~
+        surname:
+            - NotBlank: ~
