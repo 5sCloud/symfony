@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 use CsCloud\CoreBundle\Form\Type\UserProfileType;
 use CsCloud\CoreBundle\Controller\ApiTrait;
+use CsCloud\CoreBundle\Controller\FormErrorsTrait;
 use CsCloud\CoreBundle\Entity\User;
 
 /**
@@ -19,6 +20,7 @@ use CsCloud\CoreBundle\Entity\User;
 class ProfileController extends Controller
 {
     use ApiTrait;
+    use FormErrorsTrait;
 
     public function editAction(Request $request)
     {
@@ -33,23 +35,18 @@ class ProfileController extends Controller
         $form = $this->get('form.factory')->createNamed('profile', new UserProfileType(), $profile);
 
         if ($request->getMethod() === 'POST') {
-            return $this->handleSave($request);
+            $ar = $this->createApiRequestFromRequest($request, '/profile', array(), array('param_name' => 'profile'));
+            $ar->setSafeCodes(array(400));
+            $response = $this->getApiManager()->performRequest($ar);
+
+            if ($response->isSuccessful()) {
+                return $this->redirect($this->generateUrl('cs_cloud_frontend_profile_edit'), 303);
+            }
+
+            $data = $this->getData($response);
+            $this->addErrorsToForm($form, $data->errors);
         }
 
         return $this->render('CsCloudFrontendBundle:Profile:profile.html.twig', array('form' => $form->createView()));
-    }
-
-    public function handleSave(Request $request)
-    {
-        $ar = $this->createApiRequestFromRequest($request, '/profile', array(), array('param_name' => 'profile'));
-        $ar->setSafeCodes(array(400));
-        $response = $this->getApiManager()->performRequest($ar);
-
-        if ($response->isSuccessful()) {
-            return $this->redirect($this->generateUrl('cs_cloud_frontend_profile_edit'), 303);
-        } else {
-            // TODO: handle this case
-            die('INVALID FORM');
-        }
     }
 }

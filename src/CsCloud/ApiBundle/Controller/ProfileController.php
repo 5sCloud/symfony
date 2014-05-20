@@ -44,7 +44,7 @@ class ProfileController extends BaseRestController
             $em->persist($profile);
             $em->flush();
         } else {
-            return $this->view($this->getAllErrors($form), 400);
+            return $this->view(array('errors' => $this->getAllErrors($form)), 400);
         }
 
         return $this->view($profile);
