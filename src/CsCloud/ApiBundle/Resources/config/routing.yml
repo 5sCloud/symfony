@@ -17,3 +17,7 @@ cs_api_default:
 cs_api_user:
     resource:   CsCloud\ApiBundle\Controller\UserController
     type:       rest
+
+cs_api_profile:
+    resource:   CsCloud\ApiBundle\Controller\ProfileController
+    type:       rest
