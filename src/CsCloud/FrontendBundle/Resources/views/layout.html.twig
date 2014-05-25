@@ -40,8 +40,8 @@
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        {% javascripts 
-                       '@CsCloudFrontendBundle/Resources/assets/js/bootstrap/modal.js'
+        {% javascripts
+                       '../vendor/twbs/bootstrap/js/modal.js'
                        '@CsCloudFrontendBundle/Resources/assets/js/main.js'
             filter="?closure" output="js/compiled/main.js" %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
