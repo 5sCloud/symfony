@@ -1,2 +1,27 @@
 @import "bootstrap/variables.less";
+@import "variables.less";
+
+body {
+    background-color: @background-color;
+}
+
+a {
+    color: @link-color;
+    &:hover {
+        color: lighter(@link-color, 15%);
+    }
+}
+
+.nav-stacked {
+    .divider {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
+}
+
+.main-container {
+    background: #fff;
+}
 
