@@ -13,7 +13,8 @@ use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 
 use Symfony\Component\HttpFoundation\Request;
 /**
- * Description of ApiTrait
+ * ApiTrait contains useful methods to instantiate and perform
+ * an api request and handle the response
  *
  * @author Alessandro Chitolina <alekitto@gmail.com>
  */
@@ -69,6 +70,16 @@ trait ApiTrait
         return $request;
     }
 
+    /**
+     * Create an ApiRequest from current request.
+     * Useful for passing a form data to the api
+     *
+     * @param Request $request
+     * @param string $uri
+     * @param array $query
+     * @param array $options
+     * @return ApiRequest
+     */
     protected function createApiRequestFromRequest(
         Request $request,
         $uri,

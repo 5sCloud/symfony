@@ -22,7 +22,16 @@ class ProfileController extends BaseRestController
      * @REST\View()
      *
      * @ApiDoc({
-     *      "description" = "Save user profile information"
+     *      "description" = "Save user profile information",
+     *      "input" = {
+     *          "class" = "\CssCloud\CoreBundle\Form\Type\UserProfileType",
+     *          "name" = ""
+     *      },
+     *      "statusCodes" = {
+     *          200="Returned when successful",
+     *          400="Returned when the input contained errors",
+     *          500="Returned when an error is encountered"
+     *      }
      * })
      */
     public function saveAction(Request $request)
@@ -36,9 +45,11 @@ class ProfileController extends BaseRestController
             throw $this->createAccessDeniedException();
         }
 
+        // Initialize the profile entity and the user profile form
         $profile = $user->getProfile();
         $form = $this->get('form.factory')->createNamed(null, 'cscloud_userprofile', $profile, array('csrf_protection' => false));
 
+        // Validate and return
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em->persist($profile);

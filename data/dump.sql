@@ -190,6 +190,13 @@ DROP TABLE IF EXISTS `fos_user_profile`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fos_user_profile` (
   `user_id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `surname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `work` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hobby` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `housePhone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cellPhone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `avatarFilename` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `FK_8AA62FF8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `fos_user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -240,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-03 20:26:42
+-- Dump completed on 2014-06-03 19:39:49
