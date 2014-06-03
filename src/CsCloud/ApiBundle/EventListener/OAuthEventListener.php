@@ -5,6 +5,11 @@ namespace CsCloud\ApiBundle\EventListener;
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
+/**
+ * OAuth authorization events listener
+ *
+ * @author Alessandro Chitolina <alekitto@gmail.com>
+ */
 class OAuthEventListener
 {
     /**
@@ -17,6 +22,12 @@ class OAuthEventListener
         $this->doctrine = $doctrine;
     }
 
+    /**
+     * Check for an already authorized or trusted client
+     * Trusted client MUST be only an internal client (ex: frontend or our app)
+     *
+     * @param OAuthEvent $event
+     */
     public function onPreAuthorizationProcess(OAuthEvent $event)
     {
         if ($event->getClient()->getTrusted()) {
@@ -34,6 +45,11 @@ class OAuthEventListener
         }
     }
 
+    /**
+     * Store the client authorization for the current user
+     *
+     * @param OAuthEvent $event
+     */
     public function onPostAuthorizationProcess(OAuthEvent $event)
     {
         $em = $this->doctrine->getManager();

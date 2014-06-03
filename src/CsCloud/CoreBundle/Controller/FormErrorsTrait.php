@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormError;
 /**
  * Helper methods for retrieving form errors in an array without error bubbling
  * setting for each widget
+ *
+ * @author Alessandro Chitolina <alekitto@gmail.com>
  */
 trait FormErrorsTrait
 {

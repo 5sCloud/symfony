@@ -5,6 +5,11 @@ namespace CsCloud\ApiBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as REST;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/**
+ * Default index controller
+ *
+ * @author Alessandro Chitolina <alekitto@gmail.com>
+ */
 class DefaultController extends BaseRestController
 {
     /**
