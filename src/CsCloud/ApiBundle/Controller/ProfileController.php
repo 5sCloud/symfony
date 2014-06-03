@@ -23,11 +23,11 @@ class ProfileController extends BaseRestController
      *
      * @ApiDoc({
      *      "description" = "Save user profile information",
-     *      input={
+     *      "input" = {
      *          "class" = "\CssCloud\CoreBundle\Form\Type\UserProfileType",
      *          "name" = ""
      *      },
-     *      statusCodes={
+     *      "statusCodes" = {
      *          200="Returned when successful",
      *          400="Returned when the input contained errors",
      *          500="Returned when an error is encountered"
