@@ -21,3 +21,4 @@
 .DS_Store
 ._DS_Store
 .rsync_cache
+.idea/
