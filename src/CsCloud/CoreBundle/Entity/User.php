@@ -45,6 +45,14 @@ class User extends BaseUser
      */
     private $clients;
 
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection $gruppi
+     *
+     * @ORM\OneToMany(targetEntity="\CsCloud\CoreBundle\Entity\Gruppo", mappedBy="createdBy")
+     */
+    private $gruppi;
+
     /**
      * Constructor
      */
@@ -130,5 +138,38 @@ class User extends BaseUser
         return $this->getClients()->exists(function($key, $element) use ($client) {
             return $element->getId() === $client->getId();
         });
+    }
+
+    /**
+     * Add gruppi
+     *
+     * @param \CsCloud\CoreBundle\Entity\Gruppo $gruppi
+     * @return User
+     */
+    public function addGruppi(\CsCloud\CoreBundle\Entity\Gruppo $gruppi)
+    {
+        $this->gruppi[] = $gruppi;
+
+        return $this;
+    }
+
+    /**
+     * Remove gruppi
+     *
+     * @param \CsCloud\CoreBundle\Entity\Gruppo $gruppi
+     */
+    public function removeGruppi(\CsCloud\CoreBundle\Entity\Gruppo $gruppi)
+    {
+        $this->gruppi->removeElement($gruppi);
+    }
+
+    /**
+     * Get gruppi
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGruppi()
+    {
+        return $this->gruppi;
     }
 }
