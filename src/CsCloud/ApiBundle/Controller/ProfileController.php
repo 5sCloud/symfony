@@ -47,11 +47,19 @@ class ProfileController extends BaseRestController
 
         // Initialize the profile entity and the user profile form
         $profile = $user->getProfile();
+
         $form = $this->get('form.factory')->createNamed(null, 'cscloud_userprofile', $profile, array('csrf_protection' => false));
 
         // Validate and return
         $form->handleRequest($request);
         if ($form->isValid()) {
+
+            // i have to force the the update because avatar is not a field inside the database , it is not tracked for changing
+            if ($profile->getAvatar() != null) {
+                $profile->removeAvatarFile();
+                $profile->preUpload();
+
+            }
             $em->persist($profile);
             $em->flush();
         } else {

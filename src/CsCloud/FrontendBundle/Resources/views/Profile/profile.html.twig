@@ -1,5 +1,9 @@
 {% extends "CsCloudFrontendBundle::layout.html.twig" %}
 
 {% block body %}
+    {% if img != "uploads/avatar/" and img != "" %}
+        <img src="{{ asset(img) }}" width="200" />
+    {% endif %}
+
 {{ form(form) }}
 {% endblock %}

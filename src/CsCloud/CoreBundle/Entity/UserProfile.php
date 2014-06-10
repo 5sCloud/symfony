@@ -341,7 +341,7 @@ class UserProfile
             return null;
         }
 
-        $filename = sha1($this->getUser()->getId());
+        $filename = sha1(rand(5, 20));
         $extension = $this->getAvatar()->guessExtension() or
             $extension = $this->getAvatar()->guessClientExtension() or
             $extension = $this->getAvatar()->getExtension();
@@ -352,7 +352,7 @@ class UserProfile
         return $filename;
     }
 
-    protected function removeAvatarFile()
+    public function removeAvatarFile()
     {
         $oldPath = $this->getAbsolutePath();
         if (null !== $oldPath) {
@@ -375,11 +375,10 @@ class UserProfile
      */
     public function upload()
     {
+
         if (null === $this->getAvatar()) {
             return;
         }
-
-        $this->removeAvatarFile();
 
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database

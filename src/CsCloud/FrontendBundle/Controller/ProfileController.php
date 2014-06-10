@@ -47,6 +47,6 @@ class ProfileController extends Controller
             $this->addErrorsToForm($form, $data->errors);
         }
 
-        return $this->render('CsCloudFrontendBundle:Profile:profile.html.twig', array('form' => $form->createView()));
+        return $this->render('CsCloudFrontendBundle:Profile:profile.html.twig', array('form' => $form->createView(), 'img' => $profile->getRelativePath()));
     }
 }
