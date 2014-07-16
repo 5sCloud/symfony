@@ -28,6 +28,8 @@ class AppKernel extends Kernel
             new CsCloud\FrontendBundle\CsCloudFrontendBundle(),
             new CsCloud\ApiBundle\CsCloudApiBundle(),
             new CsCloud\CoreBundle\CsCloudCoreBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new CCDNForum\ForumBundle\CCDNForumForumBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

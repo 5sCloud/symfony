@@ -31,3 +31,9 @@ cs_cloud_frontend:
     resource: "@CsCloudFrontendBundle/Resources/config/routing.yml"
     prefix:   /
 
+CCDNForumForumBundle:
+    resource: "@CCDNForumForumBundle/Resources/config/routing.yml"
+
+ccdn_homepage:
+    pattern: /Forum
+    defaults: { _controller: CCDNForumForumBundle:UserCategory:index, _locale: en, forumName: Forum }
