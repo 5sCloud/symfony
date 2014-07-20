@@ -1,0 +1,11 @@
+services:
+  sonata.admin.post:
+    class: CsCloud\CoreBundle\Admin\GruppoAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "Gruppo" }
+    arguments:
+      - ~
+      - CsCloud\CoreBundle\Entity\Gruppo
+      - ~
+    calls:
+      - [ setTranslationDomain, [CsCloudCoreBundle]]

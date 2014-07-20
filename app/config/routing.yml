@@ -37,3 +37,12 @@ CCDNForumForumBundle:
 ccdn_homepage:
     pattern: /Forum
     defaults: { _controller: CCDNForumForumBundle:UserCategory:index, _locale: en, forumName: Forum }
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
