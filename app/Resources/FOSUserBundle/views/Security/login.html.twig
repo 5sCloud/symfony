@@ -5,7 +5,7 @@
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}
 
-<form name="login_form" action="{{ path("fos_user_security_check") }}" method="post">
+<form name="login_form" action="{{ path("fos_user_security_check") }}" method="post" onsubmit="return false;" >
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
     <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
@@ -16,30 +16,48 @@
 
     <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
     <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-    <button onclick="javascript:onSubmit()" >Submit</button>
+    <button onclick="javascript:onSubmit();" >Submit</button>
     <!-- <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" /> -->
 </form>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="application/javascript">
 function onSubmit() {
-    var logged = false;
+    $.support.cors = true;
     $.ajax({
-        url: "https://own.m5s.local/ocs/v1.php/person/login2",
-        beforeSend: function( xhr ) {
-            xhr.setRequestHeader("Accept", "*/*");
-            xhr.setRequestHeader("Cache-Control", "no-cache");
-            xhr.setRequestHeader("Authorization", "Basic YWRtaW46YWRtaW4=");
+        type: 'POST',
+        url: 'http://own.m5s.local/ocs/v1.php/person/login2',
+        crossDomain: true,
+        data: 'login=' + login_form.username.value + '&password=' + login_form.password.value,
+        dataType: 'xml',
+        xhrFields: {
+            withCredentials: true
         },
-        context: document.body,
-        data: 'login=' + login_form.username + '&password=' + login_form.password + '}'
-    }).done(function(e) {
-        alert(e);
+        beforeSend: function(xhr){
+            xhr.withCredentials = true;
+            xhr.setRequestHeader('Authorization' , make_base_auth(login_form.username.value, login_form.password.value));
+        },
+        success: function(responseData, textStatus, jqXHR)
+        {
+            var token = $(responseData).find('token').text();
+            //alert(token);
+            console.log(responseData);
+        },
+        error: function (responseData, textStatus, errorThrown)
+        {
+            console.warn(responseData, textStatus, errorThrown);
+            alert('CORS failed - ' + responseData);
+        }
     });
 
-    if (logged) {
-        this.submit();
-    }
-    return false;
+    //this.submit();
+}
+
+
+// courtest of stack overflow...
+function make_base_auth(user, password) {
+    var tok = user + ':' + password;
+    var hash = btoa(tok);
+    return "Basic " + hash;
 }
 
 </script>
