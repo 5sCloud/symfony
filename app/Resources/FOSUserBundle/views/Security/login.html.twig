@@ -5,7 +5,7 @@
     <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}
 
-<form name="login_form" action="{{ path("fos_user_security_check") }}" method="post" onsubmit="return false;" >
+<form name="login_form" id="login_form" action="{{ path("fos_user_security_check") }}" method="post" onsubmit="" >
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
     <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
@@ -25,7 +25,8 @@ function onSubmit() {
     $.support.cors = true;
     $.ajax({
         type: 'POST',
-        url: 'http://own.m5s.local/ocs/v1.php/person/login2',
+        async: false,
+        url: 'http://cloud.marche5stelle.it/ocs/v1.php/person/login2',
         crossDomain: true,
         data: 'login=' + login_form.username.value + '&password=' + login_form.password.value,
         dataType: 'xml',
@@ -38,9 +39,8 @@ function onSubmit() {
         },
         success: function(responseData, textStatus, jqXHR)
         {
-            var token = $(responseData).find('token').text();
-            //alert(token);
-            console.log(responseData);
+            var form = $('login_form');
+            form.submit();
         },
         error: function (responseData, textStatus, errorThrown)
         {
@@ -49,7 +49,6 @@ function onSubmit() {
         }
     });
 
-    //this.submit();
 }
 
 
